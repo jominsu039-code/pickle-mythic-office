@@ -227,7 +227,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   background: linear-gradient(90deg, transparent, #E4D4B5);
 }
 .on-line::after { background: linear-gradient(90deg, #E4D4B5, transparent); }
-.roster { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.roster { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; row-gap: 7px; }
 .avastack { display: flex; }
 .avastack .mini-ava {
   width: 26px; height: 26px; margin-right: -7px;
@@ -396,7 +396,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 }
 .send:active { transform: scale(.94); }
 .send:disabled { opacity: .5; }
-.composer-hint { margin: 6px 4px 0; font-size: 9.5px; color: #A9977C; text-align: center; }
+.composer-hint { display: none; margin: 6px 4px 0; font-size: 9.5px; color: #A9977C; text-align: center; }
 
 /* --- 데스크톱 사이드 --- */
 .chatside { display: none; }
@@ -869,7 +869,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   .chathead { margin: 0; padding: 6px 0 13px; }
   .timeline { padding: 18px 4px 92px 0; gap: 15px; max-width: 640px; }
   .composer { padding: 10px 0 6px; background: linear-gradient(180deg, rgba(251, 247, 238, 0) 0%, rgba(251, 247, 238, .94) 30%, #FBF7EE 60%); backdrop-filter: blur(3px); }
-  .composer-hint { text-align: left; margin-left: 4px; }
+  .composer-hint { display: block; text-align: left; margin-left: 4px; }
 
   .statusbar { margin: 18px auto 0; max-width: 1040px; }
   .mapcard { margin: 12px auto 0; max-width: 1040px; }
@@ -898,8 +898,10 @@ html.pv-mobile .chanbar { padding: 12px 14px 6px; }
 html.pv-mobile .chathead { margin: 0 12px; padding: 5px 14px 12px; }
 html.pv-mobile .composer { padding: 8px 12px calc(10px + env(safe-area-inset-bottom)); background: linear-gradient(180deg, rgba(251, 247, 238, 0) 0%, #FBF7EE 30%); }
 html.pv-mobile .composer-hint { text-align: center; margin-left: 0; }
-html.pv-mobile .tabs { padding: 8px 10px; }
-html.pv-mobile .tab { flex-direction: column; gap: 4px; font-size: 11.5px; padding: 8px 2px 7px; }
+html.pv-mobile .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 8px 10px; }
+html.pv-mobile .tab { flex-direction: column; gap: 4px; font-size: 11px; padding: 8px 2px 7px; }
+html.pv-mobile .composer-hint { display: none; }
+html.pv-mobile .roster-txt { font-size: 10px; }
 html.pv-mobile .taskgrid, html.pv-mobile .teamgrid, html.pv-mobile .zonelegend, html.pv-mobile .goals, html.pv-mobile .memolist { grid-template-columns: 1fr; padding-left: 12px; padding-right: 12px; }
 html.pv-mobile .goalform { grid-template-columns: 1fr; padding: 12px; }
 html.pv-mobile .goalform-row { grid-template-columns: 1fr 1fr auto; }

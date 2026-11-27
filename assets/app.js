@@ -8,7 +8,7 @@ import {
   loadAll, connectRealtime, sendMessage, addMemo, setMemo,
   goalStep, goalToggle, addGoal, stats,
   esc, kstTime, dayKey, kstLongDate,
-} from "./store.js?v=2.0.4";
+} from "./store.js?v=2.0.5";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
