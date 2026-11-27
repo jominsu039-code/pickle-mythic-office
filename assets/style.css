@@ -290,7 +290,7 @@ main{display:block}
 .room::after{
   content:"";
   position:absolute;
-  top:56px;bottom:22px;
+  top:clamp(104px,11vw,136px);bottom:22px;
   width:13px;
   border-radius:2px;
   border-top:5px solid #f4ebda;
@@ -382,7 +382,7 @@ main{display:block}
   padding-top:14px;
   border-top:1px solid var(--line-soft);
 }
-.pop-n{font-family:var(--serif);font-size:1.6rem;color:var(--gold-d);line-height:1;font-feature-settings:"lnum" 1,"tnum" 1}
+.pop-n{font-family:var(--serif-kr);font-size:1.34rem;color:var(--gold-d);line-height:1;font-feature-settings:"lnum" 1,"tnum" 1}
 .pop-l{font-size:.72rem;letter-spacing:.06em;color:var(--ink-mute)}
 
 .room-floor{
@@ -714,10 +714,10 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 49%,va
 .goal-num{
   display:flex;align-items:baseline;gap:6px;
   margin:14px 0 8px;
-  font-family:var(--serif);
+  font-family:var(--serif-kr);
   font-feature-settings:"lnum" 1,"tnum" 1;
 }
-.goal-num .cur{font-size:2rem;line-height:1;color:var(--ink)}
+.goal-num .cur{font-size:1.9rem;line-height:1;color:var(--ink)}
 .goal-num .of{font-size:.82rem;color:var(--ink-mute);letter-spacing:.06em}
 .goal-bar{height:4px;border-radius:2px;background:rgba(36,31,24,.09);overflow:hidden}
 .goal-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold-l));transition:width .9s cubic-bezier(.2,.7,.3,1)}
