@@ -8,7 +8,7 @@ import {
   loadAll, connectRealtime, sendMessage, addMemo, setMemo,
   goalStep, goalToggle, addGoal, stats,
   esc, kstTime, dayKey, kstLongDate,
-} from "./store.js?v=2.0.5";
+} from "./store.js?v=2.0.6";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -92,7 +92,10 @@ function renderMap(host) {
     (z.reserve || []).map((s) =>
       taken.has(`${s.x},${s.y}`)
         ? ""
-        : `<span class="reserve" style="--x:${s.x};--y:${s.y}" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><use href="#i-plus"/></svg></span>`
+        : `<span class="reserve" style="--x:${s.x};--y:${s.y}" title="${esc(s.label || "예비 자리")}" aria-hidden="true">
+             <svg class="ic" viewBox="0 0 24 24"><use href="#i-plus"/></svg>
+             <i class="rlabel">${esc(s.label || "예비 자리")}</i>
+           </span>`
     )
   ).join("");
 
@@ -225,10 +228,11 @@ function renderLegend() {
   if (!host) return;
   host.innerHTML = ZONES.map((z) => {
     const people = state.assistants.filter((a) => a.zone === z.id);
+    const free = (z.reserve || []).filter((s) => !people.some((p) => p.seat.x === s.x && p.seat.y === s.y)).length;
     const who = people.length
       ? people.map((a) => `<span class="who"><i class="zdot" style="background:${esc(a.hex)}"></i>${esc(a.name)}</span>`).join("")
       : `<span class="who">자리 비어 있음</span>`;
-    return `<div class="zrow"><svg class="ic" viewBox="0 0 24 24"><use href="#i-${z.icon}"/></svg><b>${esc(z.name)}</b>${who}</div>`;
+    return `<div class="zrow"><svg class="ic" viewBox="0 0 24 24"><use href="#i-${z.icon}"/></svg><b>${esc(z.name)}</b>${who}${free ? `<span class="who"><i class="zdot" style="background:#D8C7A4"></i>예비석 ${free}</span>` : ""}</div>`;
   }).join("");
 }
 

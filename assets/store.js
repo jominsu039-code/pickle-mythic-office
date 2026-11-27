@@ -91,7 +91,7 @@ export const ZONES = [
       { x: 28.3, y: 27.2 }, { x: 28.3, y: 33.3 }, { x: 28.3, y: 39.4 }, { x: 28.3, y: 45.5 },
       { x: 21.6, y: 50.2 },
     ],
-    reserve: [{ x: 21.6, y: 50.2 }],
+    reserve: [{ x: 21.6, y: 50.2, label: "회의 진행석" }],
   },
   {
     id: "delphi",
@@ -104,7 +104,7 @@ export const ZONES = [
       { x: 16.1, y: 61.8 }, { x: 9.4, y: 67.2 }, { x: 22.8, y: 66.8 },
       { x: 11.6, y: 76.4 }, { x: 21.4, y: 76.2 },
     ],
-    reserve: [{ x: 16.1, y: 61.8 }],
+    reserve: [{ x: 16.1, y: 61.8, label: "신탁 기록석" }],
   },
   {
     id: "agora",
@@ -117,7 +117,10 @@ export const ZONES = [
       { x: 44.8, y: 43.5 }, { x: 53.8, y: 43.5 }, { x: 63.0, y: 43.5 },
       { x: 44.8, y: 69.5 }, { x: 53.8, y: 69.5 }, { x: 63.0, y: 69.5 },
     ],
-    reserve: [{ x: 44.8, y: 69.5 }, { x: 63.0, y: 43.5 }],
+    reserve: [
+      { x: 44.8, y: 69.5, label: "수련생석 A" },
+      { x: 63.0, y: 43.5, label: "수련생석 B" },
+    ],
   },
   {
     id: "ambrosia",
@@ -127,7 +130,7 @@ export const ZONES = [
     icon: "cup",
     label: { x: 72.6, y: 11.6 },
     seats: [{ x: 76.0, y: 26.5 }, { x: 84.0, y: 29.5 }, { x: 88.5, y: 40.0 }],
-    reserve: [{ x: 84.0, y: 29.5 }],
+    reserve: [{ x: 84.0, y: 29.5, label: "다실 운영석" }],
   },
   {
     id: "lounge",
@@ -137,7 +140,7 @@ export const ZONES = [
     icon: "leaf",
     label: { x: 73.6, y: 50.6 },
     seats: [{ x: 77.4, y: 66.8 }, { x: 89.6, y: 66.0 }, { x: 83.6, y: 74.5 }],
-    reserve: [{ x: 83.6, y: 74.5 }],
+    reserve: [{ x: 83.6, y: 74.5, label: "휴식석" }],
   },
 ];
 

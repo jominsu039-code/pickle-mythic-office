@@ -486,7 +486,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .mapbox.mini .nameplate { display: none; }
 .mapbox.mini .zone-label { display: none; }
 .mapbox.mini .reserve { width: 8px; height: 8px; border-width: 1px; }
-.mapbox.mini .reserve::after { display: none; }
+.mapbox.mini .reserve .rlabel { display: none; }
 .mapbox.mini .seat .state { width: 1.2em; height: 1.2em; font-size: calc(var(--av) * .3); }
 
 .zone-label {
@@ -578,14 +578,14 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   font-size: clamp(8px, 1.2cqw, 12px);
   z-index: 2;
 }
-.reserve::after {
-  content: "예비 자리";
-  position: absolute; bottom: -1.5em; left: 50%; transform: translateX(-50%);
-  font-size: 8px; color: rgba(255, 245, 220, .9);
-  background: rgba(30, 24, 15, .7); padding: 1px 5px; border-radius: 4px;
-  white-space: nowrap; opacity: 0; transition: opacity .15s;
+.reserve .rlabel {
+  position: absolute; bottom: -1.45em; left: 50%; transform: translateX(-50%);
+  font-size: clamp(7px, .95cqw, 9.5px); font-style: normal; line-height: 1.5;
+  color: #FFF6E2; background: rgba(30, 24, 15, .74);
+  padding: 1px 5px; border-radius: 4px; white-space: nowrap;
+  opacity: 0; transition: opacity .15s; pointer-events: none;
 }
-.seat:hover ~ .reserve::after, .reserve:hover::after { opacity: 1; }
+.reserve:hover .rlabel { opacity: 1; }
 
 .maptools { position: absolute; right: 10px; bottom: 10px; z-index: 6; display: flex; gap: 6px; }
 .toolbtn {
@@ -858,8 +858,8 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 
   .chatgrid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 372px;
-    gap: 20px;
+    grid-template-columns: minmax(0, 1fr) 396px;
+    gap: 22px;
     align-items: start;
     padding: 0 22px;
   }
@@ -867,7 +867,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   .chatcol { border-right: 1px dashed #EADFC8; padding-right: 0; }
   .chanbar { padding: 14px 0 8px; }
   .chathead { margin: 0; padding: 6px 0 13px; }
-  .timeline { padding: 18px 4px 92px 0; gap: 15px; max-width: 640px; }
+  .timeline { padding: 18px 4px 92px 0; gap: 15px; max-width: 660px; }
   .composer { padding: 10px 0 6px; background: linear-gradient(180deg, rgba(251, 247, 238, 0) 0%, rgba(251, 247, 238, .94) 30%, #FBF7EE 60%); backdrop-filter: blur(3px); }
   .composer-hint { display: block; text-align: left; margin-left: 4px; }
 
