@@ -479,7 +479,7 @@ function switchTab(tab) {
     p.classList.toggle("is-on", on);
     p.hidden = !on;
   });
-  window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+  window.scrollTo(0, 0);
   if (tab === "chat") scrollTimeline();
 }
 
@@ -638,7 +638,6 @@ renderTimeline();
 subscribe(renderAll);
 loadAll().then(() => {
   renderAll();
-  if (activeTab === "chat") scrollTimeline();
 });
 connectRealtime();
 setInterval(() => {

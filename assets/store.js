@@ -48,6 +48,8 @@ export const PROFILES = {
     role: "조민수 님의 개인 비서",
     badge: "수석 비서",
     sort: 10,
+    // 이 비서의 상태·방·하는 일은 어느 저장소가 진짜인지 (연동 시 충돌 방지)
+    prefer: "supabase",
   },
   sudaeng: {
     id: "sudaeng",
@@ -61,6 +63,7 @@ export const PROFILES = {
     role: "박준아 님의 개인 비서",
     badge: "합동 비서",
     sort: 20,
+    prefer: "partner",
   },
 };
 
@@ -158,8 +161,6 @@ const ROOM_TO_ZONE = {
 const TEXT_TO_ZONE = [
   [/암브로시아|다실|커피|차 한 잔|티타임/, "ambrosia"],
   [/라운지|휴식|소파|쉬는 중/, "lounge"],
-  [/회의|안건|회의실/, "council"],
-  [/신탁|기록|게시판|서신/, "delphi"],
 ];
 
 export const CHANNELS = [
@@ -338,7 +339,8 @@ function normStatusFromText(text) {
 
 function pickZone(a) {
   if (a.status === "meeting") return "council";
-  const text = `${a.task || ""} ${a.focus || ""}`;
+  // 다실·라운지로 움직였다는 말이 있으면 방보다 그쪽을 먼저 (실제로 자리를 옮긴 것)
+  const text = a.task || "";
   for (const [re, zone] of TEXT_TO_ZONE) if (re.test(text)) return zone;
   return ROOM_TO_ZONE[a.roomRaw] || "agora";
 }
@@ -384,10 +386,11 @@ function buildAssistants({ agents = [], partner = {} }) {
     a.partnerUpdatedAt = at;
     a.linked = true;
     a.sources.push("partner");
-    if (at >= (a.sbUpdatedAt || 0)) {
-      a.roomRaw = row.room || a.roomRaw;
-      a.status = ["working", "meeting", "idle", "offline"].includes(row.status) ? row.status : a.status;
-      a.task = row.task || a.task;
+    // 이 비서의 주인이 상대쪽이면 상대 DB가 진실. 우리 쪽 비서면 우리 DB가 진실.
+    if (a.prefer === "partner") {
+      if (row.room) a.roomRaw = row.room;
+      if (["working", "meeting", "idle", "offline"].includes(row.status)) a.status = row.status;
+      if (row.task) a.task = row.task;
     }
     if (!a.energy) a.energy = 80;
   }

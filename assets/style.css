@@ -399,6 +399,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 
 /* --- 데스크톱 사이드 --- */
 .chatside { display: none; }
+.mapbox { border-radius: 13px; overflow: hidden; }
 .side-card {
   background: var(--paper);
   border: 1px solid #EFE2CA;
@@ -413,6 +414,25 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 }
 .side-head span { display: inline-flex; align-items: center; gap: 5px; }
 .linkbtn { font-size: 10.5px; color: #A2854F; border-bottom: 1px solid #E3D2B2; padding-bottom: 1px; }
+
+.sidestats {
+  list-style: none; margin: 11px 0 0; padding: 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+}
+.sidestats li {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 6px;
+  padding: 7px 10px;
+  border-radius: 9px;
+  background: #FBF5E9;
+  border: 1px solid #F1E4CC;
+  font-size: 10.5px; color: #8C7B62;
+}
+.sidestats b { font-family: var(--serif); font-size: 13px; color: #5C4A2C; font-variant-numeric: tabular-nums; }
+
+.sidetasks { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.sidetasks li { display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: #4E4230; }
+.sidetasks .t { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sidetasks b { font-size: 10px; color: #94805F; font-variant-numeric: tabular-nums; }
 
 /* ============================== 2.5D 지도 ============================== */
 .statusbar {
@@ -460,11 +480,10 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .map-layer { position: absolute; inset: 0; }
 
 /* 사이드바 미니 지도 */
-.mapbox.mini { border-radius: 13px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(60, 40, 10, .25); }
-.mapbox.mini .map-stage { --av: 17px; }
+.mapbox.mini { box-shadow: inset 0 0 0 1px rgba(60, 40, 10, .25); }
+.mapbox.mini .map-stage { --av: 20px; }
 .mapbox.mini .nameplate { display: none; }
-.mapbox.mini .zone-label { font-size: 7.6px; padding: .18em .4em .18em .3em; border-radius: .35em; opacity: .92; }
-.mapbox.mini .zone-label .ic { display: none; }
+.mapbox.mini .zone-label { display: none; }
 .mapbox.mini .reserve { width: 8px; height: 8px; border-width: 1px; }
 .mapbox.mini .reserve::after { display: none; }
 .mapbox.mini .seat .state { width: 1.2em; height: 1.2em; font-size: calc(var(--av) * .3); }
@@ -831,8 +850,8 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   }
   .topbar-sub { margin-left: 55px; }
   .title { font-size: 26px; }
-  .tabs { padding: 8px 22px; gap: 6px; }
-  .tab { flex-direction: row; gap: 7px; font-size: 12.5px; padding: 10px 12px; }
+  .tabs { display: flex; gap: 6px; justify-content: flex-start; padding: 10px 22px; }
+  .tab { flex-direction: row; gap: 7px; font-size: 12.5px; padding: 10px 16px; border-radius: 12px; }
   .tab .ic { font-size: 16px; }
   .main { padding-bottom: 30px; }
 
@@ -851,10 +870,10 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   .composer { padding: 10px 0 6px; background: none; }
   .composer-hint { text-align: left; margin-left: 4px; }
 
-  .statusbar { margin: 18px 22px 0; }
-  .mapcard { margin: 12px 22px 0; }
-  .mapnote { margin: 9px 26px 0; }
-  .zonelegend { grid-template-columns: repeat(3, 1fr); padding: 12px 22px 4px; }
+  .statusbar { margin: 18px auto 0; max-width: 1040px; }
+  .mapcard { margin: 12px auto 0; max-width: 1040px; }
+  .mapnote { margin: 9px auto 0; max-width: 1040px; }
+  .zonelegend { grid-template-columns: repeat(3, 1fr); padding: 12px 0 4px; max-width: 1040px; margin: 0 auto; }
   .taskgrid { grid-template-columns: repeat(2, 1fr); padding: 0 22px; }
   .teamgrid { grid-template-columns: repeat(2, 1fr); padding: 0 22px; }
   .goals { grid-template-columns: repeat(3, 1fr); padding: 0 22px; }
