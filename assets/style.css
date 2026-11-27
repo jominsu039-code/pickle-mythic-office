@@ -897,13 +897,13 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 
 /* ============================== 모바일 미리보기(?pv=mobile) ============================== */
 html.pv-mobile .app { max-width: 430px; margin: 0 auto; box-shadow: 0 0 70px -20px rgba(70, 48, 16, .5); }
-html.pv-mobile .chatgrid { display: block; padding: 0; }
+html.pv-mobile .chatgrid { display: block; padding: 0; height: auto; min-height: 0; }
 html.pv-mobile .chatside { display: none; }
-html.pv-mobile .chatcol { border-right: 0; }
-html.pv-mobile .timeline { padding: 16px 14px 6px; max-width: none; }
+html.pv-mobile .chatcol { display: block; border-right: 0; }
+html.pv-mobile .timeline { flex: none; overflow: visible; max-width: none; min-height: 200px; padding: 16px 14px 96px; }
 html.pv-mobile .chanbar { padding: 12px 14px 6px; }
 html.pv-mobile .chathead { margin: 0 12px; padding: 5px 14px 12px; }
-html.pv-mobile .composer { padding: 8px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--cream); }
+html.pv-mobile .composer { position: sticky; bottom: 0; flex: none; padding: 8px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--cream); box-shadow: 0 -14px 24px -22px rgba(88, 62, 24, .85); }
 html.pv-mobile .composer-hint { text-align: center; margin-left: 0; }
 html.pv-mobile .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 8px 10px; }
 html.pv-mobile .tab { flex-direction: column; gap: 4px; font-size: 11px; padding: 8px 2px 7px; }
