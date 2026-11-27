@@ -146,7 +146,7 @@ insert into public.pickle_joint_office_agents
 values
   ('raphael', '라파엘', '조민수', '@chominsu37', '대현자 · 신전 서기관', 'ㄹ', '#2f7d52',
    'workshop', '미니앱과 채널을 다듬는 중', '오늘의 작업 세 가닥을 정리하고 신탁 게시판에 올립니다.', 86, 7, 10),
-  ('selene', '달빛 신관 셀레네', '박준아', '@parkjuna2', '신탁 기록관 · 박준아 님의 비서', 'ㅈ', '#7b7fd4',
+  ('selene', '달빛 신관 셀레네', '박준아', '@parkjuna2', '신탁 기록관 · 달빛의 서기', 'ㅈ', '#7b7fd4',
    'oracle', '신전에 첫 서신을 기다리는 중', '연동되면 이 자리에서 준아 님의 하루가 보입니다.', 72, 3, 20)
 on conflict (id) do nothing;
 
