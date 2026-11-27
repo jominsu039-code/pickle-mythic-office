@@ -8,7 +8,7 @@ import {
   loadAll, connectRealtime, sendMessage, addMemo, setMemo,
   goalStep, goalToggle, addGoal, stats,
   esc, kstTime, dayKey, kstLongDate,
-} from "./store.js?v=2.1.4";
+} from "./store.js?v=2.1.5";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -389,7 +389,7 @@ function renderSide() {
   }
   const sm = $("#sideMemos");
   if (sm) {
-    const memos = state.memos.slice(0, 3);
+    const memos = state.memos.slice(0, 2);
     sm.innerHTML = memos.length
       ? memos
           .map(
