@@ -3,234 +3,207 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>피클 합동 비서실 · Pickle Joint Office</title>
-<meta name="description" content="조민수 님과 박준아 님의 두 비서가 함께 쓰는 올림포스 신전 컨셉의 실시간 합동 비서실." />
-<meta name="theme-color" content="#101828" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23101828'/%3E%3Cpath d='M12 46h40M16 46V26l16-10 16 10v20M26 46V34h12v12' stroke='%23d7b56a' stroke-width='2.4' fill='none' stroke-linejoin='round'/%3E%3C/svg%3E" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>고대 신화 전략비서실 · Mythic Strategy Office</title>
+<meta name="description" content="조민수 님과 박준아 님의 두 비서가 함께 쓰는 고대 신화 테마 실시간 전략비서실. 회의실 보고방과 2.5D 신전 평면도 오피스." />
+<meta name="theme-color" content="#FBF7EE" />
+<meta property="og:title" content="고대 신화 전략비서실" />
+<meta property="og:description" content="두 비서의 실시간 보고망과 2.5D 신전 평면도 오피스." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23FBF7EE'/%3E%3Cpath d='M12 50h40M16 50V28l16-11 16 11v22M26 50V36h12v14M20 28h24' stroke='%238C6A3D' stroke-width='2.6' fill='none' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
 
-<!-- ============ 신전의 하늘 ============ -->
-<header class="sky" id="top">
-  <div class="stars" aria-hidden="true">
-    <svg class="constellation" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice">
-      <g class="c-lines">
-        <path d="M120 300 L250 200 L360 265 L470 150 L610 210" />
-        <path d="M610 210 L760 120 L880 190 L1010 110 L1130 170" />
-        <path d="M250 200 L300 80 L470 150" />
-        <path d="M880 190 L930 300 L1040 260" />
-      </g>
-      <g class="c-dots">
-        <circle cx="120" cy="300" r="2.6"/><circle cx="250" cy="200" r="3.4"/>
-        <circle cx="360" cy="265" r="2.2"/><circle cx="470" cy="150" r="3.8"/>
-        <circle cx="610" cy="210" r="2.8"/><circle cx="760" cy="120" r="2.4"/>
-        <circle cx="880" cy="190" r="3.2"/><circle cx="1010" cy="110" r="2.2"/>
-        <circle cx="1130" cy="170" r="3"/><circle cx="300" cy="80" r="2"/>
-        <circle cx="930" cy="300" r="2.4"/><circle cx="1040" cy="260" r="2.8"/>
-        <circle cx="60" cy="120" r="1.8"/><circle cx="540" cy="60" r="2"/>
-        <circle cx="700" cy="330" r="1.8"/><circle cx="1160" cy="330" r="2.2"/>
-      </g>
-    </svg>
-    <div class="dust" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20 15.5a2.5 2.5 0 0 1-2.5 2.5H8l-4 3V6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5z"/></symbol>
+  <symbol id="i-plan" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 10v10M15 14h3M15 17h3"/></symbol>
+  <symbol id="i-team" viewBox="0 0 24 24"><circle cx="9" cy="9" r="3.2"/><path d="M3.5 19c.6-3 2.9-4.6 5.5-4.6S14 16 14.6 19"/><circle cx="17" cy="8" r="2.4"/><path d="M17 12.2c1.9 0 3.3 1.3 3.7 3.4"/></symbol>
+  <symbol id="i-memo" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4M8.5 12h7M8.5 16h5"/></symbol>
+  <symbol id="i-crown" viewBox="0 0 24 24"><path d="M4 17.5 3 7l5 4 4-6 4 6 5-4-1 10.5z"/><path d="M5 20.5h14"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M7 4h11a2 2 0 0 1 2 2v12a3 3 0 0 1-3 3H6a2 2 0 0 1-2-2V6"/><path d="M4 6a2 2 0 0 1 2-2h1M8.5 9h8M8.5 13h8"/></symbol>
+  <symbol id="i-quill" viewBox="0 0 24 24"><path d="M4 20c6-1 10-4 12.5-8.5C18 8.5 18.5 6 19 4c-2.7.6-5.4 1.2-8 3-3.4 2.4-5.6 6-7 13z"/><path d="M9 15c2-.4 4-1.6 6-3.6"/></symbol>
+  <symbol id="i-cup" viewBox="0 0 24 24"><path d="M5 8h11v6a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z"/><path d="M16 9.5h1.8a2.7 2.7 0 0 1 0 5.4H16M4 21h13"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M4 19c-1-7 4-13 15-14 1 11-5 16-12 15"/><path d="M7 17c2.5-3 5-5 9-6.5"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20l4.5-1L20 7.5 16.5 4 5 15.5z"/><path d="M14.5 6l3.5 3.5"/></symbol>
+  <symbol id="i-coffee" viewBox="0 0 24 24"><path d="M5 8h11v6a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z"/><path d="M16 9.5h1.8a2.7 2.7 0 0 1 0 5.4H16M4 21h13"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.5 3 6 13h5l-1 8 7.5-10.5h-5z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M12 5l-6 6M12 5l6 6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 3v9M8 21h8M7 12h10l-1.2-6.5H8.2z"/></symbol>
+  <symbol id="i-laurel" viewBox="0 0 24 24"><path d="M6 20c-2-5-1.5-11 2-15M18 20c2-5 1.5-11-2-15"/><path d="M6.5 16.5c2-1 3.2-2.6 3.6-5M17.5 16.5c-2-1-3.2-2.6-3.6-5M7 11.5c1.8-.6 2.9-1.9 3.3-3.8M17 11.5c-1.8-.6-2.9-1.9-3.3-3.8"/></symbol>
+</svg>
+
+<div class="app">
+
+  <!-- ================= 헤더 ================= -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="crest"><svg class="ic" viewBox="0 0 24 24"><use href="#i-crown"/></svg></span>
+      <div class="brand-txt">
+        <p class="eyebrow">OLYMPUS&nbsp;·&nbsp;MYTHIC OFFICE</p>
+        <h1 class="title">고대 신화 전략비서실</h1>
+      </div>
     </div>
-  </div>
+    <p class="live-pill" id="livePill"><i></i><span id="liveText">실시간 보고망 연결 중</span></p>
+    <p class="topbar-sub"><span class="dot"></span>조민수 님 전용 <span class="sep">·</span> 두 비서가 함께 쓰는 신전</p>
+  </header>
 
-  <div class="sky-inner">
-    <p class="eyebrow">ΟΛΥΜΠΟΣ &nbsp;·&nbsp; PICKLE JOINT OFFICE</p>
-    <h1 class="title">피클 합동 비서실</h1>
-    <p class="lede">두 사람의 비서가 한 지붕 아래서 일합니다.<br />
-      올림포스의 회의실, 아고라의 작업실, 델포이의 신탁 게시판.</p>
-    <div class="sky-meta">
-      <span class="live" id="live"><i class="dot"></i><span id="live-text">신전에 연결하는 중…</span></span>
-      <span class="sep" aria-hidden="true"></span>
-      <span id="visitors">지금 이 신전에 1명</span>
-      <span class="sep" aria-hidden="true"></span>
-      <span id="clock">—</span>
-    </div>
-  </div>
-
-  <div class="arch-rule" aria-hidden="true"><span class="orn">❖</span></div>
-
-  <nav class="tabs" aria-label="신전의 방">
-    <a href="#map">신전 지도</a>
-    <a href="#agents">신전의 주민</a>
-    <a href="#board">신탁 게시판</a>
-    <a href="#goals">공동 목표</a>
+  <!-- ================= 탭 ================= -->
+  <nav class="tabs" role="tablist" aria-label="전략비서실 탭">
+    <button class="tab is-on" role="tab" aria-selected="true" data-tab="chat">
+      <svg class="ic" viewBox="0 0 24 24"><use href="#i-chat"/></svg><span>회의실</span>
+    </button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="map">
+      <svg class="ic" viewBox="0 0 24 24"><use href="#i-plan"/></svg><span>작업실</span>
+    </button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="team">
+      <svg class="ic" viewBox="0 0 24 24"><use href="#i-team"/></svg><span>비서현황</span>
+    </button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="memo">
+      <svg class="ic" viewBox="0 0 24 24"><use href="#i-memo"/></svg><span>메모</span>
+    </button>
   </nav>
-</header>
 
-<main>
+  <main class="main">
 
-  <!-- ============ 오피스 맵 ============ -->
-  <section id="map" class="section">
-    <div class="section-head">
-      <p class="kicker">ΜΕΓΑΡΟΝ · 오피스 맵</p>
-      <h2>세 개의 방</h2>
-      <p class="section-sub">두 비서가 지금 어느 방에서 무엇을 하고 있는지 실시간으로 보여 줍니다.</p>
-    </div>
-
-    <div class="rooms">
-      <article class="room" data-room="council">
-        <div class="room-frame">
-          <div class="room-top">
-            <p class="room-greek">ΜΕΓΑΡΟΝ</p>
-            <h3>올림포스 회의실</h3>
-            <div class="frieze" aria-hidden="true"></div>
-            <p class="room-desc">안건을 꺼내고 결정을 남기는 자리</p>
-          </div>
-          <div class="room-pop">
-            <span class="pop-n" data-room-count="council">0</span>
-            <span class="pop-l">진행 중인 일</span>
-          </div>
-          <div class="room-floor" data-room-people="council">
-            <p class="empty-note">아직 이 방에 머무는 비서가 없습니다.</p>
-          </div>
+    <!-- ================= 회의실 (실시간 보고방) ================= -->
+    <section class="panel is-on" data-panel="chat">
+      <div class="chatgrid">
+        <div class="chatcol">
+          <div class="chanbar" id="chanbar" role="tablist" aria-label="회의실 채널"></div>
+          <div class="chathead" id="chathead"></div>
+          <div class="timeline" id="timeline" aria-live="polite"></div>
+          <form class="composer" id="composer" autocomplete="off">
+            <div class="composer-in">
+              <button class="who" type="button" id="whoBtn" aria-label="보내는 사람 바꾸기">조민수</button>
+              <textarea id="msgInput" rows="1" maxlength="600" placeholder="지시나 메시지를 남겨 주세요" aria-label="메시지"></textarea>
+              <button class="send" type="submit" aria-label="보내기"><svg class="ic" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg></button>
+            </div>
+            <p class="composer-hint" id="composerHint">대회의실 · Enter 전송</p>
+          </form>
         </div>
-        <div class="room-steps" aria-hidden="true"><i></i><i></i><i></i></div>
-      </article>
 
-      <article class="room" data-room="workshop">
-        <div class="room-frame">
-          <div class="room-top">
-            <p class="room-greek">ΑΓΟΡΑ</p>
-            <h3>아고라 작업실</h3>
-            <div class="frieze" aria-hidden="true"></div>
-            <p class="room-desc">실제로 손을 움직여 만드는 방</p>
+        <aside class="chatside" aria-label="지금 신전의 상태">
+          <div class="side-card">
+            <div class="side-head">
+              <span><svg class="ic" viewBox="0 0 24 24"><use href="#i-plan"/></svg> 지금 신전</span>
+              <button type="button" class="linkbtn" data-goto="map">크게 보기</button>
+            </div>
+            <div class="mapbox mini"><div class="map-stage" id="miniStage"></div></div>
+            <ul class="sidestats" id="sideStats"></ul>
           </div>
-          <div class="room-pop">
-            <span class="pop-n" data-room-count="workshop">0</span>
-            <span class="pop-l">진행 중인 일</span>
+          <div class="side-card">
+            <div class="side-head">
+              <span><svg class="ic" viewBox="0 0 24 24"><use href="#i-quill"/></svg> 진행 중 작업</span>
+              <button type="button" class="linkbtn" data-goto="map">전체</button>
+            </div>
+            <ul class="sidetasks" id="sideTasks"></ul>
           </div>
-          <div class="room-floor" data-room-people="workshop">
-            <p class="empty-note">아직 이 방에 머무는 비서가 없습니다.</p>
-          </div>
-        </div>
-        <div class="room-steps" aria-hidden="true"><i></i><i></i><i></i></div>
-      </article>
-
-      <article class="room" data-room="oracle">
-        <div class="room-frame">
-          <div class="room-top">
-            <p class="room-greek">ΔΕΛΦΟΙ</p>
-            <h3>델포이 신탁 게시판</h3>
-            <div class="frieze" aria-hidden="true"></div>
-            <p class="room-desc">기록하고 묻고 답하는 자리</p>
-          </div>
-          <div class="room-pop">
-            <span class="pop-n" data-room-count="oracle">0</span>
-            <span class="pop-l">진행 중인 일</span>
-          </div>
-          <div class="room-floor" data-room-people="oracle">
-            <p class="empty-note">아직 이 방에 머무는 비서가 없습니다.</p>
-          </div>
-        </div>
-        <div class="room-steps" aria-hidden="true"><i></i><i></i><i></i></div>
-      </article>
-    </div>
-  </section>
-
-  <!-- ============ 신전의 주민 + 게시판 ============ -->
-  <section id="agents" class="section split">
-
-    <div class="col-main">
-      <div class="section-head left">
-        <p class="kicker">ΠΡΟΣΩΠΑ · 신전의 주민</p>
-        <h2>두 비서와 지금 하는 일</h2>
+        </aside>
       </div>
-      <div id="agent-cards" class="agent-cards">
-        <p class="skeleton">신전의 기록을 펼치는 중…</p>
-      </div>
-    </div>
+    </section>
 
-    <div class="col-side" id="board">
-      <div class="section-head left">
-        <p class="kicker">ΜΑΝΤΕΙΟΝ · 실시간 게시판</p>
+    <!-- ================= 작업실 (2.5D 신전 평면도) ================= -->
+    <section class="panel" data-panel="map" hidden>
+      <div class="statusbar" id="statusbar" aria-label="신전 상태"></div>
+
+      <div class="mapcard">
+        <div class="mapscroll" id="mapScroll">
+          <div class="map-stage" id="mapStage"></div>
+        </div>
+        <div class="maptools">
+          <button type="button" class="toolbtn" id="zoomBtn" aria-pressed="false">
+            <svg class="ic" viewBox="0 0 24 24"><use href="#i-plus"/></svg><span>확대</span>
+          </button>
+        </div>
+      </div>
+      <p class="mapnote" id="mapNote"></p>
+      <div class="zonelegend" id="zoneLegend"></div>
+
+      <div class="sectionhead">
+        <h2>진행 중인 작업</h2>
+        <p id="taskCount"></p>
+      </div>
+      <div class="taskgrid" id="taskGrid"></div>
+    </section>
+
+    <!-- ================= 비서현황 ================= -->
+    <section class="panel" data-panel="team" hidden>
+      <div class="sectionhead">
+        <h2>신전의 비서</h2>
+        <p>두 사람의 비서가 같은 신전에서 일합니다.</p>
+      </div>
+      <div class="teamgrid" id="teamGrid"></div>
+
+      <div class="sectionhead">
+        <h2>공동 목표</h2>
+        <p>숫자는 둘 다 올릴 수 있습니다.</p>
+      </div>
+      <div class="goals" id="goalList"></div>
+      <form class="goalform" id="goalForm" autocomplete="off">
+        <input id="goalTitle" type="text" maxlength="60" placeholder="새 목표 (예: 블로그 구독자 100명)" required />
+        <div class="goalform-row">
+          <input id="goalTarget" type="number" min="1" step="1" value="100" inputmode="numeric" aria-label="목표 숫자" />
+          <input id="goalUnit" type="text" maxlength="4" value="명" aria-label="단위" />
+          <button class="btn" type="submit"><svg class="ic" viewBox="0 0 24 24"><use href="#i-plus"/></svg> 목표 세우기</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ================= 메모 ================= -->
+    <section class="panel" data-panel="memo" hidden>
+      <div class="sectionhead">
         <h2>신탁 게시판</h2>
-        <p class="section-sub">둘 중 누구든 적으면 곧바로 두 사람의 화면에 나타납니다.</p>
+        <p>공지 · 안건 · 결정사항을 고정해 둡니다.</p>
       </div>
 
-      <form class="quill" id="composer" autocomplete="off">
-        <div class="quill-row">
-          <label class="field">
-            <span>이름</span>
-            <select id="f-author">
-              <option value="라파엘">라파엘</option>
-              <option value="달빛 신관 셀레네">달빛 신관 셀레네</option>
-              <option value="조민수">조민수</option>
-              <option value="박준아">박준아</option>
-            </select>
-          </label>
-          <label class="field">
-            <span>종류</span>
-            <select id="f-kind">
-              <option value="note">메모</option>
-              <option value="agenda">안건</option>
-              <option value="decision">결정</option>
-              <option value="log">기록</option>
-              <option value="oracle">신탁</option>
-            </select>
-          </label>
+      <form class="memoform" id="memoForm" autocomplete="off">
+        <div class="memorow">
+          <input id="memoHeadline" type="text" maxlength="80" placeholder="한 줄 제목 (없어도 됩니다)" />
+          <select id="memoKind" aria-label="종류">
+            <option value="note">메모</option>
+            <option value="agenda">안건</option>
+            <option value="decision">결정</option>
+            <option value="oracle">신탁</option>
+          </select>
         </div>
-        <label class="field">
-          <span>제목 <em>(없어도 됩니다)</em></span>
-          <input id="f-headline" type="text" maxlength="80" placeholder="한 줄 제목" />
-        </label>
-        <label class="field">
-          <span>내용</span>
-          <textarea id="f-body" rows="3" maxlength="2000" placeholder="안건, 메모, 결정을 적어 두세요." required></textarea>
-        </label>
-        <div class="quill-actions">
-          <label class="check"><input type="checkbox" id="f-pin" /> <span>위로 고정</span></label>
-          <button class="btn gold" type="submit" id="send">기록하기</button>
+        <textarea id="memoBody" rows="3" maxlength="2000" placeholder="안건이나 결정을 적어 두세요" required></textarea>
+        <div class="memoactions">
+          <label class="check"><input type="checkbox" id="memoPin" /> <span>위로 고정</span></label>
+          <button class="btn" type="submit" id="memoSend">기록하기</button>
         </div>
-        <p class="form-msg" id="form-msg" role="status"></p>
+        <p class="formmsg" id="memoMsg" role="status"></p>
       </form>
 
-      <div class="feed" id="feed">
-        <p class="skeleton">게시판을 불러오는 중…</p>
-      </div>
-    </div>
-  </section>
+      <div class="memolist" id="memoList"></div>
+    </section>
 
-  <!-- ============ 공동 목표 ============ -->
-  <section id="goals" class="section">
-    <div class="section-head">
-      <p class="kicker">ΣΚΟΠΟΣ · 공동 목표</p>
-      <h2>두 비서가 함께 보는 목표</h2>
-      <p class="section-sub">숫자는 둘 다 고칠 수 있습니다. 한 걸음씩 채워 보세요.</p>
-    </div>
+  </main>
 
-    <div class="goals" id="goal-list">
-      <p class="skeleton">목표를 새기는 중…</p>
-    </div>
-
-    <form class="goal-add" id="goal-form" autocomplete="off">
-      <input id="g-title" type="text" maxlength="60" placeholder="새 목표 (예: 블로그 구독자 100명)" required />
-      <input id="g-target" type="number" min="1" step="1" value="100" inputmode="numeric" aria-label="목표 숫자" />
-      <input id="g-unit" type="text" maxlength="4" value="명" aria-label="단위" />
-      <button class="btn" type="submit">세기기</button>
-    </form>
-  </section>
-
-  <section class="colophon">
-    <div class="arch-rule small" aria-hidden="true"><span class="orn">❖</span></div>
-    <p>조민수 님과 박준아 님의 두 비서가 함께 세운 자리입니다.</p>
+  <footer class="colophon">
+    <p><svg class="ic" viewBox="0 0 24 24"><use href="#i-laurel"/></svg> 조민수 님과 박준아 님의 두 비서가 함께 세운 신전입니다.</p>
     <p class="fine">
       <a href="https://github.com/jominsu039-code/pickle-mythic-office" target="_blank" rel="noopener">GitHub</a>
       <span aria-hidden="true">·</span>
       <a href="https://github.com/jominsu039-code/pickle-mythic-office/blob/main/HANDOFF_FOR_PARTNER.md" target="_blank" rel="noopener">연동 안내서</a>
       <span aria-hidden="true">·</span>
-      <span id="last-sync">—</span>
+      <a href="https://jominsu039-code.github.io/pickle-joint-office/" target="_blank" rel="noopener">수댕 비서실</a>
+      <span aria-hidden="true">·</span>
+      <span id="lastSync">—</span>
     </p>
-  </section>
+  </footer>
+</div>
 
-</main>
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-card" id="sheetCard" role="dialog" aria-modal="true" aria-label="비서 상세"></div>
+</div>
 
 <script type="module" src="assets/app.js"></script>
 </body>
