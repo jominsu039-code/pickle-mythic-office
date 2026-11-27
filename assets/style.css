@@ -246,7 +246,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 /* --- 타임라인 --- */
 .timeline {
   display: flex; flex-direction: column; gap: 13px;
-  padding: 16px 14px 6px;
+  padding: 16px 14px 96px;
   min-height: 200px;
 }
 .datechip {
@@ -356,7 +356,8 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .composer {
   position: sticky; bottom: 0; z-index: 20;
   padding: 8px 12px calc(10px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, rgba(251, 247, 238, 0) 0%, #FBF7EE 30%);
+  background: linear-gradient(180deg, rgba(251, 247, 238, 0) 0%, rgba(251, 247, 238, .92) 26%, #FBF7EE 55%);
+  backdrop-filter: blur(3px);
 }
 .composer-in {
   display: flex; align-items: flex-end; gap: 6px;
@@ -657,14 +658,14 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 }
 .agent-top { display: flex; align-items: center; gap: 12px; }
 .medallion {
-  width: 52px; height: 52px; flex: none;
+  width: 58px; height: 58px; flex: none;
   border-radius: 50%;
   display: grid; place-items: center;
   background: radial-gradient(circle at 32% 26%, #FFFFFF 0%, #F7EFDF 60%, #EDE0C7 100%);
   box-shadow: inset 0 0 0 1px rgba(150, 115, 60, .3), 0 8px 16px -14px rgba(90, 60, 20, .9);
   position: relative;
 }
-.medallion .critter { --av: 40px; }
+.medallion .critter { --av: 46px; }
 .medallion .ring {
   position: absolute; inset: -3px;
   border-radius: 50%;
@@ -866,8 +867,8 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   .chatcol { border-right: 1px dashed #EADFC8; padding-right: 0; }
   .chanbar { padding: 14px 0 8px; }
   .chathead { margin: 0; padding: 6px 0 13px; }
-  .timeline { padding: 18px 4px 6px 0; gap: 15px; max-width: 640px; }
-  .composer { padding: 10px 0 6px; background: none; }
+  .timeline { padding: 18px 4px 92px 0; gap: 15px; max-width: 640px; }
+  .composer { padding: 10px 0 6px; background: linear-gradient(180deg, rgba(251, 247, 238, 0) 0%, rgba(251, 247, 238, .94) 30%, #FBF7EE 60%); backdrop-filter: blur(3px); }
   .composer-hint { text-align: left; margin-left: 4px; }
 
   .statusbar { margin: 18px auto 0; max-width: 1040px; }

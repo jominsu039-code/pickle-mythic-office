@@ -45,7 +45,7 @@ export const PROFILES = {
     material: "기본",
     owner: "조민수",
     ownerHandle: "@chominsu37",
-    role: "조민수 님의 개인 비서",
+    role: "대현자 · 신전 서기관",
     badge: "수석 비서",
     sort: 10,
     // 이 비서의 상태·방·하는 일은 어느 저장소가 진짜인지 (연동 시 충돌 방지)
@@ -60,7 +60,7 @@ export const PROFILES = {
     material: "기본",
     owner: "박준아",
     ownerHandle: "@parkjuna2",
-    role: "박준아 님의 개인 비서",
+    role: "달빛 기록관 · 신탁의 서기",
     badge: "합동 비서",
     sort: 20,
     prefer: "partner",

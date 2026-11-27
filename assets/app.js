@@ -8,7 +8,7 @@ import {
   loadAll, connectRealtime, sendMessage, addMemo, setMemo,
   goalStep, goalToggle, addGoal, stats,
   esc, kstTime, dayKey, kstLongDate,
-} from "./store.js?v=2.0.3";
+} from "./store.js?v=2.0.4";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -216,7 +216,7 @@ function renderStatusbar() {
     <span class="sb-sep"></span>
     <span class="sb-item"><svg class="ic" viewBox="0 0 24 24"><use href="#i-coffee"/></svg>휴식 <b>${s.resting}</b></span>
     <span class="sb-sep"></span>
-    <span class="sb-item">출근 <b>${s.present}</b>명</span>
+    <span class="sb-item">출근 <b>${s.present}명</b></span>
     <span class="sb-time">${now.toLocaleTimeString("ko-KR", { timeZone: "Asia/Seoul", hour: "2-digit", minute: "2-digit", hour12: false })}</span>`;
 }
 
@@ -292,7 +292,6 @@ function renderTeam() {
           <span class="pill">${esc(a.owner)} 님 소속</span>
           ${linked}
           <span class="pill">보고 ${reports}건</span>
-          <span class="pill">오늘 ${s.reportsToday}건 중</span>
         </div>
         ${tasks.length
           ? `<ul class="agent-tasks">${tasks
@@ -648,4 +647,4 @@ setInterval(() => {
 
 /* 지도 메모 문구 */
 const note = $("#mapNote");
-if (note) note.textContent = "아바타는 실제 DB 상태를 6초마다 다시 읽습니다. 점선 원은 아직 비어 있는 예비 자리입니다. 캐릭터를 누르면 지금 하는 일을 볼 수 있습니다.";
+if (note) note.textContent = "아바타는 실제 DB 상태를 실시간으로 다시 읽습니다(6초 백업 동기화). 점선 원은 아직 비어 있는 예비 자리입니다. 캐릭터를 누르면 지금 하는 일을 볼 수 있습니다.";
