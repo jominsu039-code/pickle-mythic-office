@@ -8,7 +8,7 @@ import {
   loadAll, connectRealtime, sendMessage, addMemo, setMemo,
   goalStep, goalToggle, addGoal, stats,
   esc, kstTime, dayKey, kstLongDate,
-} from "./store.js?v=2.0.8";
+} from "./store.js?v=2.0.9";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -489,6 +489,10 @@ function switchTab(tab) {
 function scrollTimeline() {
   const tl = $("#timeline");
   if (!tl) return;
+  if (tl.scrollHeight > tl.clientHeight + 4) {
+    tl.scrollTo({ top: tl.scrollHeight, behavior: "smooth" });
+    return;
+  }
   const y = tl.getBoundingClientRect().bottom + window.scrollY - window.innerHeight;
   if (y > window.scrollY) window.scrollTo({ top: y + 12, behavior: "smooth" });
 }
