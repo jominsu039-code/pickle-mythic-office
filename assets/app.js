@@ -8,7 +8,7 @@ import {
   loadAll, connectRealtime, sendMessage, addMemo, setMemo,
   goalStep, goalToggle, addGoal, stats,
   esc, kstTime, dayKey, kstLongDate,
-} from "./store.js?v=2.1.5";
+} from "./store.js?v=3.0.0";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -27,19 +27,168 @@ const STATE_META = {
 const MEMO_KIND = { note: "메모", agenda: "안건", decision: "결정", log: "기록", oracle: "신탁" };
 const CH_NAME = Object.fromEntries(CHANNELS.map((c) => [c.id, c.name]));
 
-/* ---------------------------------------------------------------- 조각들 */
+/* ---------------------------------------------------------------- 조각들
+   비서를 고대 신화의 신(神)으로 그립니다.
+   라파엘 = 에메랄드 로브 · 금빛 월계관 · 지혜의 광륜
+   수댕   = 보랏빛 별빛 로브 · 초승달 관
+   상태(회의/업무/휴식/자리비움)에 따라 숨쉬기 · 둥실뜨기 · 눈깜빡임 ·
+   광륜 회전 · 깃펜 끄적임 · 빛 입자가 CSS 로 움직입니다. */
+const GOD_LOOK = {
+  raphael: {
+    robe: ["#4FB88A", "#1E7C57", "#0E4631"],
+    deep: "#0B3626",
+    skin: "#F7E3C5",
+    hair: "#123A2B",
+    trim: "#EED296",
+    halo: "#9FE7C4",
+    gem: "#7CE3B4",
+    crown: "laurel",
+    long: false,
+  },
+  sudaeng: {
+    robe: ["#AB8DE8", "#6B4BB6", "#33235F"],
+    deep: "#221641",
+    skin: "#F8E5CC",
+    hair: "#2A1F4C",
+    trim: "#EADDFF",
+    halo: "#CDBBFF",
+    gem: "#DCC9FF",
+    crown: "moon",
+  },
+};
+
+function crownMark(look, id) {
+  if (look.crown === "moon") {
+    return `<g class="crown crown--moon">
+      <path d="M39.8 8.4a9.4 9.4 0 1 0 0 17.6 10.9 10.9 0 0 1 0-17.6Z" fill="url(#g${id})" stroke="#8A6526" stroke-width=".3"/>
+      <path d="M40.2 11.6a6.6 6.6 0 1 0 0 11.2" fill="none" stroke="#FFF4D6" stroke-width=".7" opacity=".55"/>
+      <path class="crown-star" d="M26.6 11.6l.9 1.9 1.9.9-1.9.9-.9 1.9-.9-1.9-1.9-.9 1.9-.9z" fill="${look.trim}"/>
+      <path class="crown-star" d="M47.4 20.6l.7 1.5 1.5.7-1.5.7-.7 1.5-.7-1.5-1.5-.7 1.5-.7z" fill="${look.trim}"/>
+      <path class="crown-star" d="M25.2 21.4l.5 1.1 1.1.5-1.1.5-.5 1.1-.5-1.1-1.1-.5 1.1-.5z" fill="${look.trim}"/>
+    </g>`;
+  }
+  // 월계관: 머리 위로 두 줄의 금빛 잎
+  const leaves = [
+    [25.4, 22.2, -34], [27.9, 19.6, -42], [30.8, 17.9, -54], [33.9, 17.1, -68],
+    [46.6, 22.2, 34], [44.1, 19.6, 42], [41.2, 17.9, 54], [38.1, 17.1, 68],
+  ]
+    .map(([x, y, r]) => `<ellipse cx="${x}" cy="${y}" rx="1.55" ry="2.9" transform="rotate(${r} ${x} ${y})"/>`)
+    .join("");
+  return `<g class="crown crown--laurel" fill="url(#g${id})" stroke="#8A6526" stroke-width=".28">
+    <path d="M24.6 24.4C26.6 19.4 31 16.6 36 16.6s9.4 2.8 11.4 7.8" fill="none" stroke="url(#g${id})" stroke-width="1.5" stroke-linecap="round"/>
+    ${leaves}
+    <circle class="crown-glow" cx="36" cy="19.4" r="2.4" fill="${look.gem}" stroke="#FFF6DC" stroke-width=".5"/>
+  </g>`;
+}
+
 function critter(a, extra = "") {
   const id = ++critterSeq;
-  return `<svg class="critter ${extra}" viewBox="0 0 64 68" style="--tone:${esc(a.hex)}" data-c="${id}" aria-hidden="true">
-    <ellipse cx="32" cy="63.5" rx="16" ry="3.2" fill="rgba(28,18,6,.22)"/>
-    <path class="body" d="M32 3.5c15.2 0 24.5 10.4 24.5 27.2C56.5 49 47 60.9 32 60.9S7.5 49 7.5 30.7C7.5 13.9 16.8 3.5 32 3.5Z"/>
-    <ellipse class="gloss" cx="23" cy="14.5" rx="8.6" ry="6" transform="rotate(-20 23 14.5)"/>
-    <circle class="eye" cx="24.6" cy="25.6" r="2.8"/>
-    <circle class="eye" cx="39.4" cy="25.6" r="2.8"/>
-    <circle class="shine" cx="25.7" cy="24.4" r=".9"/>
-    <circle class="shine" cx="40.5" cy="24.4" r=".9"/>
-    <text class="glyph" x="32" y="44.5" text-anchor="middle" font-size="14">${esc(a.glyph || "·")}</text>
-    <path d="M52.5 12.5l1.2 2.6 2.6 1.2-2.6 1.2-1.2 2.6-1.2-2.6-2.6-1.2 2.6-1.2z" fill="rgba(255,255,255,.55)"/>
+  const look = GOD_LOOK[a.id] || GOD_LOOK.raphael;
+  const st = a.status || "idle";
+  const delay = `${-((id % 6) * 0.43).toFixed(2)}s`;
+  const rays = Array.from({ length: 12 }, (_, i) => {
+    const t = (i * 30 * Math.PI) / 180;
+    const p = (r) => [36 + Math.cos(t) * r, 27.6 + Math.sin(t) * r];
+    const [x1, y1] = p(19.9);
+    const [x2, y2] = p(i % 2 ? 22.4 : 24.2);
+    return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`;
+  }).join("");
+  const spark = (x, y, s, k) =>
+    `<path class="spark spark--${k}" d="M${x} ${y - s}l${s * 0.34} ${s * 0.66} ${s * 0.66} ${s * 0.34}-${s * 0.66} ${s * 0.34}-${s * 0.34} ${s * 0.66}-${s * 0.34}-${s * 0.66}-${s * 0.66}-${s * 0.34} ${s * 0.66}-${s * 0.34}z" fill="${look.trim}"/>`;
+
+  // 금빛 월계관: 뾰족한 잎을 호를 따라 배치
+  const leaf = "M0 1.9C1.15 0.4 1.15-1.9 0-3.4-1.15-1.9-1.15.4 0 1.9Z";
+  const leaves = [
+    [25.2, 24.2, -26], [26.9, 21.6, -34], [29.2, 19.4, -46], [32.0, 17.9, -60], [34.9, 17.1, -74],
+    [46.8, 24.2, 26], [45.1, 21.6, 34], [42.8, 19.4, 46], [40.0, 17.9, 60], [37.1, 17.1, 74],
+  ]
+    .map(([x, y, r]) => `<path d="${leaf}" transform="translate(${x} ${y}) rotate(${r})"/>`)
+    .join("");
+
+  const crown =
+    look.crown === "moon"
+      ? `<g class="crown crown--moon">
+      <mask id="mm${id}"><rect x="0" y="0" width="72" height="84" fill="#fff"/>
+        <circle cx="39.4" cy="12.4" r="5.1" fill="#000"/></mask>
+      <circle cx="35.8" cy="12.4" r="5.5" fill="url(#g${id})" stroke="#8A6526" stroke-width=".35" mask="url(#mm${id})"/>
+      <circle class="crown-glow" cx="36.8" cy="10.2" r="1.3" fill="${look.gem}" stroke="#FFF6DC" stroke-width=".4"/>
+      <path class="crown-star" d="M26.4 11.8l.85 1.8 1.8.85-1.8.85-.85 1.8-.85-1.8-1.8-.85 1.8-.85z" fill="${look.trim}"/>
+      <path class="crown-star" d="M47.6 18.4l.62 1.32 1.32.62-1.32.62-.62 1.32-.62-1.32-1.32-.62 1.32-.62z" fill="${look.trim}"/>
+      <path class="crown-star" d="M25.4 19.6l.46 1 .98.46-.98.46-.46.98-.46-.98-.98-.46.98-.46z" fill="${look.trim}"/>
+    </g>`
+      : `<g class="crown crown--laurel" fill="url(#g${id})" stroke="#8A6526" stroke-width=".26">
+      <path d="M24.8 25.2C26.4 20 30.7 17.1 36 17.1s9.6 2.9 11.2 8.1" fill="none" stroke="url(#g${id})" stroke-width="1.25" stroke-linecap="round"/>
+      ${leaves}
+      <circle class="crown-glow" cx="36" cy="18.9" r="2.3" fill="${look.gem}" stroke="#FFF6DC" stroke-width=".5"/>
+    </g>`;
+
+  return `<svg class="critter god ${extra}" viewBox="0 0 72 84" data-status="${st}" style="--tone:${esc(a.hex)};--delay:${delay};--bd:${delay}" data-c="${id}" aria-hidden="true">
+    <defs>
+      <radialGradient id="h${id}" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="${look.halo}" stop-opacity=".55"/>
+        <stop offset="55%" stop-color="${look.halo}" stop-opacity=".18"/>
+        <stop offset="100%" stop-color="${look.halo}" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="g${id}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FBEBC0"/>
+        <stop offset="42%" stop-color="#DFB970"/>
+        <stop offset="100%" stop-color="#A97C3B"/>
+      </linearGradient>
+      <linearGradient id="r${id}" x1=".1" y1="0" x2=".9" y2="1">
+        <stop offset="0%" stop-color="${look.robe[0]}"/>
+        <stop offset="48%" stop-color="${look.robe[1]}"/>
+        <stop offset="100%" stop-color="${look.robe[2]}"/>
+      </linearGradient>
+    </defs>
+    <ellipse class="god-shadow" cx="36" cy="79.6" rx="13.4" ry="2.6" fill="rgba(28,18,6,.24)"/>
+    <g class="god-float">
+      <g class="halo-rays" stroke="${look.halo}" stroke-width="1" stroke-linecap="round" opacity=".55">${rays}</g>
+      <circle class="halo-core" cx="36" cy="27.6" r="25" fill="url(#h${id})"/>
+      <circle class="halo-ring" cx="36" cy="27.6" r="18.8" fill="none" stroke="${look.trim}" stroke-width=".9" opacity=".6"/>
+      <circle class="halo-ring2" cx="36" cy="27.6" r="17.1" fill="none" stroke="${look.trim}" stroke-width=".45" opacity=".35"/>
+      ${look.long === false ? "" : `<path class="hair-back" d="M23.6 27c0-7.4 5.5-12.4 12.4-12.4S48.4 19.6 48.4 27v18.6c0 2.2-2.2 3.4-4 2.3l-1.5-.9V31.4h-13v15.6l-1.5.9c-1.8 1.1-4-.1-4-2.3z" fill="${look.hair}"/>`}
+      <rect x="33.4" y="39.4" width="5.2" height="6.4" rx="2.6" fill="${look.skin}"/>
+      <g class="god-body">
+        <path d="M36 43.2c-3.4 0-6.4 1-8.8 3.1-2.1 1.8-3.4 4.4-4 7.7L20 72.2c-.2 1.5.9 2.8 2.4 2.8h27.2c1.5 0 2.6-1.3 2.4-2.8l-3.2-18.2c-.6-3.3-1.9-5.9-4-7.7-2.4-2.1-5.4-3.1-8.8-3.1z" fill="url(#r${id})"/>
+        <path d="M36 43.2c-3.4 0-6.4 1-8.8 3.1l2.6 2.2c1.9-1.3 3.9-2 6.2-2s4.3.7 6.2 2l2.6-2.2c-2.4-2.1-5.4-3.1-8.8-3.1z" fill="#FFFFFF" opacity=".16"/>
+        <path d="M24.7 50.9c2.2-4.4 6.4-6.3 11.3-6.3s9.1 1.9 11.3 6.3" fill="none" stroke="${look.trim}" stroke-width="1.5" stroke-linecap="round" opacity=".9"/>
+        <path d="M31.6 43.9 36 48.7l4.4-4.8" fill="none" stroke="${look.trim}" stroke-width="1.5" stroke-linecap="round" opacity=".85"/>
+        <path d="M33.9 47.2h4.2l-1 26.6h-2.2z" fill="url(#g${id})" opacity=".95"/>
+        <circle cx="36" cy="57.8" r="6.5" fill="url(#g${id})" stroke="#8A6526" stroke-width=".45"/>
+        <circle cx="36" cy="57.8" r="4.9" fill="none" stroke="#FFF6DC" stroke-width=".45" opacity=".75"/>
+        <text class="glyph" x="36" y="60.7" text-anchor="middle" font-size="7.2" font-family="var(--serif)" font-weight="700" fill="#4A3413">${esc(a.glyph || "·")}</text>
+        <path d="M21.4 70.9c4.5 1.9 9.3 2.9 14.6 2.9s10.1-1 14.6-2.9" fill="none" stroke="${look.trim}" stroke-width="1.2" opacity=".8"/>
+        <path d="M20.6 72.6c4.8 2.1 10 3.2 15.4 3.2s10.6-1.1 15.4-3.2" fill="none" stroke="${look.deep}" stroke-width="1" opacity=".35"/>
+      </g>
+      <rect x="17.2" y="53.4" width="6.4" height="14.6" rx="3.2" fill="url(#r${id})" transform="rotate(13 20.4 60.7)"/>
+      <rect x="48.4" y="53.4" width="6.4" height="14.6" rx="3.2" fill="url(#r${id})" transform="rotate(-13 51.6 60.7)"/>
+      <circle cx="18.4" cy="69.6" r="2.7" fill="${look.skin}"/>
+      <circle cx="53.6" cy="69.6" r="2.7" fill="${look.skin}"/>
+      <circle cx="36" cy="28.8" r="12.9" fill="${look.skin}"/>
+      <path class="hair-front" d="M22.9 28.4a13.1 13.1 0 0 1 26.2 0c-2.7-4.3-7.3-6.4-13.1-6.4s-10.4 2.1-13.1 6.4z" fill="${look.hair}"/>
+      <ellipse cx="22.9" cy="30.4" rx="1.8" ry="2.3" fill="${look.skin}"/>
+      <ellipse cx="49.1" cy="30.4" rx="1.8" ry="2.3" fill="${look.skin}"/>
+      <g class="god-face">
+        <ellipse class="eye" cx="31.2" cy="29.6" rx="1.7" ry="2.1" fill="#2A2218"/>
+        <ellipse class="eye" cx="40.8" cy="29.6" rx="1.7" ry="2.1" fill="#2A2218"/>
+        <circle class="shine" cx="31.8" cy="28.8" r=".58" fill="#fff"/>
+        <circle class="shine" cx="41.4" cy="28.8" r=".58" fill="#fff"/>
+        <ellipse cx="27" cy="33.2" rx="2.1" ry="1.15" fill="#E79C9C" opacity=".42"/>
+        <ellipse cx="45" cy="33.2" rx="2.1" ry="1.15" fill="#E79C9C" opacity=".42"/>
+        <path d="M34 34.6c1.25 1.15 2.75 1.15 4 0" fill="none" stroke="#96664C" stroke-width=".9" stroke-linecap="round"/>
+      </g>
+      ${crown}
+      <g class="quill">
+        <path d="M54.2 63.8c1.6 2 3.4 3 5.4 3.2-1.4-1.9-2.2-3.9-2.6-6-1.2.6-2.1 1.6-2.8 2.8z" fill="${look.trim}" stroke="#8A6526" stroke-width=".3"/>
+        <path d="M53.6 68.6 58.9 63" stroke="#8A5A44" stroke-width=".9" stroke-linecap="round"/>
+        <path d="M56.2 65.9l2.2-.5M57.3 64.7l2.2-.4" stroke="#FFF6DC" stroke-width=".4" opacity=".8"/>
+      </g>
+      <g class="god-zzz" fill="${look.trim}" font-family="var(--serif)" font-weight="700">
+        <text x="50" y="18" font-size="5">z</text>
+        <text x="53" y="13" font-size="6">z</text>
+      </g>
+      ${spark(54, 30, 2.6, "a")}${spark(18, 36, 2.1, "b")}${spark(48, 46, 1.8, "c")}
+    </g>
   </svg>`;
 }
 
@@ -63,9 +212,43 @@ function dateLabel(iso) {
   return `${y}.${m}.${d} ${wd}`;
 }
 
-/* ---------------------------------------------------------------- 지도 */
+/* ---------------------------------------------------------------- 지도
+   매 6초 백업 동기화마다 innerHTML 을 통째로 갈아치우면 캐릭터 애니메이션이
+   끊기므로, 구성원·좌석이 그대로면 상태만 갱신해 살아 움직임을 이어 간다. */
+function mapSignature() {
+  return state.assistants
+    .map((a) => [a.id, a.name, a.glyph, a.zone, a.seat.x, a.seat.y].join(","))
+    .join("|");
+}
+
+function patchSeats(host) {
+  for (const a of state.assistants) {
+    const seat = host.querySelector(`.seat[data-agent="${CSS.escape(a.id)}"]`);
+    if (!seat) continue;
+    const label = `${a.name} · ${STATE_META[a.status]?.label || ""}`;
+    if (seat.dataset.status !== a.status) {
+      seat.dataset.status = a.status;
+      seat.setAttribute("aria-label", label);
+      const god = seat.querySelector(".god");
+      if (god) god.dataset.status = a.status;
+      const st = seat.querySelector(".state");
+      const m = STATE_META[a.status] || STATE_META.idle;
+      if (st) {
+        st.title = m.label;
+        st.innerHTML = `<svg class="ic" viewBox="0 0 24 24"><use href="#i-${m.icon}"/></svg>`;
+      }
+    }
+  }
+}
+
 function renderMap(host) {
   if (!host) return;
+  const sig = host.id + "|" + mapSignature();
+  if (host.dataset.sig === sig && host.querySelector(".seat")) {
+    patchSeats(host);
+    return;
+  }
+  host.dataset.sig = sig;
   const zonesHtml = ZONES.map(
     (z) => `<span class="zone-label" style="--x:${z.label.x};--y:${z.label.y}">
       <svg class="ic" viewBox="0 0 24 24"><use href="#i-${z.icon}"/></svg><span class="full">${esc(z.name)}</span><span class="short">${esc(z.short || z.name)}</span>
@@ -77,9 +260,9 @@ function renderMap(host) {
 
   const seatsHtml = state.assistants
     .map(
-      (a) => `<button type="button" class="seat" style="--x:${a.seat.x};--y:${a.seat.y}" data-agent="${esc(a.id)}" aria-label="${esc(a.name)} · ${esc(STATE_META[a.status]?.label || "")}">
+      (a) => `<button type="button" class="seat" style="--x:${a.seat.x};--y:${a.seat.y}" data-agent="${esc(a.id)}" data-status="${esc(a.status)}" aria-label="${esc(a.name)} · ${esc(STATE_META[a.status]?.label || "")}">
         <span class="critter-wrap">
-          <span class="bob">${critter(a)}</span>
+          ${critter(a)}
           ${stateIcon(a)}
         </span>
         <span class="nameplate">${esc(a.name)}</span>
@@ -125,8 +308,7 @@ function renderChatHead() {
   const chName = CH_NAME[activeChannel];
   const avatars = state.assistants
     .map(
-      (a) => `<span class="mini-ava" style="background:${esc(a.hex)}22;color:${esc(a.hex)}" title="${esc(a.name)} · ${esc(STATE_META[a.status]?.label || "")}">
-        <span>${esc(a.glyph)}</span></span>`
+      (a) => `<span class="mini-ava" title="${esc(a.name)} · ${esc(STATE_META[a.status]?.label || "")}">${critter(a)}</span>`
     )
     .join("");
   host.innerHTML = `
@@ -424,8 +606,29 @@ function renderLivePill() {
   if (sync && state.syncedAt) sync.textContent = `마지막 동기화 ${kstTime(state.syncedAt)}`;
 }
 
-function renderAll() {
+let renderSig = "";
+function stateSignature() {
+  const list = state.allMessages || [];
+  return [
+    state.assistants.map((a) => [a.id, a.status, a.task, a.focus].join(",")).join("|"),
+    state.tasks.map((t) => [t.id, t.status, t.progress].join(",")).join("|"),
+    state.goals.map((g) => [g.id, g.current, g.done].join(",")).join("|"),
+    state.memos.map((m) => [m.id, m.done, m.pinned].join(",")).join("|"),
+    list.length,
+    list.length ? list[list.length - 1].at : "",
+  ].join("#");
+}
+
+function renderAll(force = false) {
   renderLivePill();
+  const sig = stateSignature();
+  if (!force && sig === renderSig) {
+    // 새 데이터가 없는 백업 동기화: 캐릭터 애니메이션을 끊지 않도록 그대로 둔다.
+    renderStatusbar();
+    renderChatHead();
+    return;
+  }
+  renderSig = sig;
   renderChannels();
   renderChatHead();
   renderTimeline();
@@ -653,10 +856,22 @@ bootPreview();
 bind();
 renderChannels();
 renderTimeline();
+/* 스플래시: 첫 데이터가 도착하면 신전의 문을 연다 */
+function closeSplash() {
+  const s = document.getElementById("splash");
+  if (!s || s.classList.contains("is-done")) return;
+  s.classList.add("is-done");
+  setTimeout(() => s.remove(), 800);
+}
+
 subscribe(renderAll);
-loadAll().then(() => {
-  renderAll();
-});
+loadAll()
+  .then(() => {
+    renderAll(true);
+  })
+  .catch(() => {})
+  .finally(() => setTimeout(closeSplash, 240));
+setTimeout(closeSplash, 5200);
 connectRealtime();
 setInterval(() => {
   renderLivePill();

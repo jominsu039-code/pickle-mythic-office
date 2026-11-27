@@ -230,16 +230,11 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .roster { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; row-gap: 7px; }
 .avastack { display: flex; }
 .avastack .mini-ava {
-  width: 26px; height: 26px; margin-right: -7px;
-  border-radius: 50%;
-  background: #F5EEDF;
-  border: 1.5px solid var(--paper);
-  display: grid; place-items: center;
-  font: 600 11px/1 var(--serif);
-  box-shadow: 0 2px 6px -3px rgba(90, 60, 20, .8);
-  position: relative; overflow: hidden;
+  width: 28px; height: 33px; margin-right: -5px;
+  display: block; overflow: visible;
+  position: relative;
 }
-.avastack .mini-ava span { position: relative; z-index: 2; }
+.avastack .mini-ava .god { --av: 28px; filter: drop-shadow(0 2px 3px rgba(90, 60, 20, .35)); }
 .roster-txt { font-size: 10.5px; color: #94805F; margin-left: 4px; }
 .roster-txt b { color: #6B5A3E; font-weight: 600; }
 
@@ -478,7 +473,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   width: 100%;
   aspect-ratio: 1483 / 966;
   container-type: inline-size;
-  --av: clamp(22px, 4.9cqw, 52px);
+  --av: clamp(28px, 6cqw, 60px);
   background: #EAE0CC;
   transition: width .25s ease;
 }
@@ -493,7 +488,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 
 /* 사이드바 미니 지도 */
 .mapbox.mini { box-shadow: inset 0 0 0 1px rgba(60, 40, 10, .25); }
-.mapbox.mini .map-stage { --av: 20px; }
+.mapbox.mini .map-stage { --av: 22px; }
 .mapbox.mini .nameplate { display: none; }
 .mapbox.mini .zone-label { display: none; }
 .mapbox.mini .reserve { width: 8px; height: 8px; border-width: 1px; }
@@ -540,19 +535,69 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   z-index: 3;
 }
 .seat .critter-wrap { position: relative; display: block; }
-.critter {
+/* --- 신(神) 캐릭터 --- */
+.god {
   display: block;
   width: var(--av, 46px);
-  height: calc(var(--av, 46px) * 1.08);
-  filter: drop-shadow(0 5px 5px rgba(25, 16, 5, .45));
-  transition: transform .18s ease;
+  height: calc(var(--av, 46px) * 1.167);
+  overflow: visible;
+  filter: drop-shadow(0 4px 5px rgba(25, 16, 5, .42));
+  transition: transform .18s ease, filter .3s ease;
 }
-.seat:hover .critter, .seat:focus-visible .critter { transform: translateY(-2px) scale(1.04); }
-.critter .body { fill: var(--tone); }
-.critter .gloss { fill: rgba(255, 255, 255, .22); }
-.critter .eye { fill: #2A2218; }
-.critter .shine { fill: #fff; }
-.critter .glyph { fill: rgba(255, 255, 255, .95); font-family: var(--serif); font-weight: 700; }
+.seat:hover .god, .seat:focus-visible .god { transform: translateY(-2px) scale(1.05); }
+.god .god-float { animation: godFloat 5.6s ease-in-out infinite; animation-delay: var(--delay, 0s); }
+.god .god-body {
+  animation: godBreathe 4.6s ease-in-out infinite; animation-delay: var(--delay, 0s);
+  transform-box: fill-box; transform-origin: 50% 100%;
+}
+.god .halo-rays {
+  animation: haloSpin 44s linear infinite;
+  transform-origin: 36px 27.6px; transform-box: view-box;
+}
+.god .halo-core {
+  animation: haloPulse 5.4s ease-in-out infinite; animation-delay: var(--delay, 0s);
+  transform-box: fill-box; transform-origin: center;
+}
+.god .eye {
+  transform-box: fill-box; transform-origin: center;
+  animation: godBlink 6.6s ease-in-out infinite; animation-delay: var(--bd, 0s);
+}
+.god .quill { opacity: 0; transform-box: fill-box; transform-origin: 18% 72%; }
+.god .god-zzz { opacity: 0; }
+.god .spark { opacity: 0; transform-box: fill-box; transform-origin: center; }
+
+@keyframes godFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2.6px); } }
+@keyframes godBreathe { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.02, .982); } }
+@keyframes haloSpin { to { transform: rotate(360deg); } }
+@keyframes haloPulse { 0%, 100% { opacity: .9; transform: scale(1); } 50% { opacity: .58; transform: scale(1.06); } }
+@keyframes godBlink { 0%, 90%, 100% { transform: scaleY(1); } 94% { transform: scaleY(.08); } }
+@keyframes quillWrite { 0%, 100% { transform: rotate(-8deg) translate(0, 0); } 50% { transform: rotate(7deg) translate(-.9px, -.7px); } }
+@keyframes sparkTwinkle { 0%, 100% { opacity: .12; transform: scale(.55); } 45% { opacity: 1; transform: scale(1.18); } }
+@keyframes zFloat { 0% { opacity: 0; transform: translate(0, 2px); } 35% { opacity: .85; } 100% { opacity: 0; transform: translate(2.5px, -7px); } }
+@keyframes crownGlowPulse { 0%, 100% { opacity: .82; transform: scale(1); } 50% { opacity: 1; transform: scale(1.14); } }
+
+/* 상태별 모션 — 업무 중엔 깃펜을 끄적이고 빛 입자가 튄다 */
+.god[data-status="working"] .quill { opacity: 1; animation: quillWrite 1.15s ease-in-out infinite; }
+.god[data-status="working"] .spark { animation: sparkTwinkle 1.9s ease-in-out infinite; }
+.god[data-status="working"] .spark--b { animation-delay: .45s; }
+.god[data-status="working"] .spark--c { animation-delay: .95s; }
+.god[data-status="working"] .halo-rays { animation-duration: 26s; }
+.god[data-status="meeting"] .halo-rays { animation-duration: 11s; opacity: .9; }
+.god[data-status="meeting"] .halo-core { animation-duration: 2.6s; }
+.god[data-status="meeting"] .crown-glow {
+  animation: crownGlowPulse 2.2s ease-in-out infinite;
+  transform-box: fill-box; transform-origin: center;
+}
+.god[data-status="meeting"] .spark { animation: sparkTwinkle 2.8s ease-in-out infinite; }
+.god[data-status="idle"] .god-zzz { animation: zFloat 4.6s ease-in-out infinite; animation-delay: 1s; }
+.god[data-status="idle"] .spark { animation: sparkTwinkle 4.2s ease-in-out infinite; }
+.god[data-status="offline"] { filter: grayscale(.55) opacity(.78); }
+.god[data-status="offline"] .eye { animation: none; transform: scaleY(.1); }
+.god[data-status="offline"] .god-float { animation-duration: 9.5s; }
+.god[data-status="offline"] .halo-core { opacity: .3; animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .god *, .god { animation: none !important; }
+}
 .seat .state {
   position: absolute; right: -.1em; top: -.15em;
   width: 1.45em; height: 1.45em;
@@ -578,9 +623,9 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   white-space: nowrap;
   box-shadow: 0 2px 5px -2px rgba(40, 25, 8, .55);
 }
-.seat .bob { animation: bob 4.6s ease-in-out infinite; }
-.seat:nth-child(2n) .bob { animation-duration: 5.4s; animation-delay: -1.2s; }
-@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
+.seat:nth-child(2n) .god .god-float { animation-duration: 6.5s; animation-delay: -1.9s; }
+.seat:nth-child(3n) .god .god-float { animation-duration: 5.1s; animation-delay: -3.1s; }
+.seat:nth-child(2n) .god .god-body { animation-duration: 5.4s; animation-delay: -2.2s; }
 
 .reserve {
   position: absolute;
@@ -940,3 +985,49 @@ html.pv-mobile .topbar { padding: 16px 16px 12px; }
 html.pv-mobile .title { font-size: 21px; }
 html.pv-mobile .sheet { align-items: end; }
 html.pv-mobile .sheet-card { border-radius: 22px 22px 0 0; }
+
+/* ============================== 스플래시 (신전 입장) ============================== */
+.splash {
+  position: fixed; inset: 0; z-index: 2000;
+  display: grid; place-content: center; justify-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(120% 85% at 50% 16%, #FFFDF7 0%, #FBF7EE 40%, #F2E7D2 100%);
+  transition: opacity .6s ease, visibility .6s ease;
+}
+.splash.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
+.splash-crest { width: min(40vw, 152px); aspect-ratio: 1; margin-bottom: 6px; }
+.splash-svg {
+  width: 100%; height: 100%; overflow: visible;
+  filter: drop-shadow(0 12px 20px rgba(120, 88, 40, .18));
+}
+.splash-svg .sp-rays {
+  transform-box: view-box; transform-origin: 60px 58px;
+  animation: haloSpin 28s linear infinite;
+}
+.splash-svg .sp-crown {
+  animation: godFloat 4.8s ease-in-out infinite;
+  transform-box: fill-box; transform-origin: 50% 100%;
+}
+.splash-svg .sp-gem {
+  animation: gemPulse 2.6s ease-in-out infinite;
+  transform-box: fill-box; transform-origin: center;
+}
+.splash-name {
+  margin: 0; font-family: var(--serif);
+  font-size: clamp(17px, 4.7vw, 22px); font-weight: 700;
+  letter-spacing: .07em; color: #3A2E1E;
+}
+.splash-sub { margin: 7px 0 0; font-size: 11.5px; letter-spacing: .04em; color: #94805F; }
+.splash-bar {
+  margin-top: 15px; width: 112px; height: 2px; border-radius: 2px;
+  background: #EADFC8; overflow: hidden;
+}
+.splash-bar i {
+  display: block; width: 42%; height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #C79C56, transparent);
+  animation: splashSweep 1.25s ease-in-out infinite;
+}
+@keyframes splashSweep { 0% { transform: translateX(-115%); } 100% { transform: translateX(265%); } }
+@keyframes gemPulse { 0%, 100% { opacity: .72; transform: scale(.9); } 50% { opacity: 1; transform: scale(1.14); } }
+@media (prefers-reduced-motion: reduce) { .splash * { animation: none !important; } }
