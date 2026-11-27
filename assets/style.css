@@ -435,6 +435,17 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .sidetasks .t { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sidetasks b { font-size: 10px; color: #94805F; font-variant-numeric: tabular-nums; }
 
+.sidememos { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.sidememos li {
+  display: block; padding: 8px 10px;
+  border-radius: 9px;
+  background: #FBF5E9;
+  border: 1px solid #F1E4CC;
+  font-size: 11px; color: #4E4230; line-height: 1.5;
+}
+.sidememos .k { display: block; font-size: 9px; letter-spacing: .04em; color: #A08A66; margin-bottom: 2px; }
+.sidememos .t { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 /* ============================== 2.5D 지도 ============================== */
 .statusbar {
   display: flex; align-items: center; gap: 6px 10px; flex-wrap: wrap;

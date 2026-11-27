@@ -8,7 +8,7 @@ import {
   loadAll, connectRealtime, sendMessage, addMemo, setMemo,
   goalStep, goalToggle, addGoal, stats,
   esc, kstTime, dayKey, kstLongDate,
-} from "./store.js?v=2.1.3";
+} from "./store.js?v=2.1.4";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -386,6 +386,17 @@ function renderSide() {
           })
           .join("")
       : `<li><span class="t">진행 중인 작업이 없습니다</span></li>`;
+  }
+  const sm = $("#sideMemos");
+  if (sm) {
+    const memos = state.memos.slice(0, 3);
+    sm.innerHTML = memos.length
+      ? memos
+          .map(
+            (m) => `<li><span class="k">${esc(MEMO_KIND[m.kind] || m.kind)}${m.pinned ? " · 고정" : ""}</span><span class="t">${esc(m.headline || m.body).slice(0, 46)}</span></li>`
+          )
+          .join("")
+      : `<li><span class="t">아직 기록이 없습니다</span></li>`;
   }
 }
 
