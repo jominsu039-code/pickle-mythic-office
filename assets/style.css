@@ -356,7 +356,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .composer {
   position: sticky; bottom: 0; z-index: 20;
   padding: 8px 12px calc(10px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, rgba(251, 247, 238, 0) 0%, rgba(251, 247, 238, .92) 26%, #FBF7EE 55%);
+  background: linear-gradient(180deg, rgba(251, 247, 238, 0) 0%, rgba(251, 247, 238, .96) 22%, #FBF7EE 45%);
   backdrop-filter: blur(3px);
 }
 .composer-in {
@@ -868,7 +868,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   .chanbar { padding: 14px 0 8px; }
   .chathead { margin: 0; padding: 6px 0 13px; }
   .timeline { padding: 18px 4px 92px 0; gap: 15px; max-width: 660px; }
-  .composer { padding: 10px 0 6px; background: linear-gradient(180deg, rgba(251, 247, 238, 0) 0%, rgba(251, 247, 238, .94) 30%, #FBF7EE 60%); backdrop-filter: blur(3px); }
+  .composer { padding: 10px 0 6px; background: linear-gradient(180deg, rgba(251, 247, 238, 0) 0%, rgba(251, 247, 238, .97) 24%, #FBF7EE 50%); backdrop-filter: blur(3px); }
   .composer-hint { display: block; text-align: left; margin-left: 4px; }
 
   .statusbar { margin: 18px auto 0; max-width: 1040px; }
