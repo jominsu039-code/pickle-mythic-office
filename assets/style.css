@@ -509,6 +509,14 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   pointer-events: none;
 }
 .zone-label .ic { font-size: 1.05em; color: #E6C88C; }
+.zone-label .short { display: none; }
+
+@container (max-width: 560px) {
+  .zone-label { font-size: 8.4px; padding: .22em .45em .22em .36em; gap: .28em; }
+  .zone-label .full { display: none; }
+  .zone-label .short { display: inline; }
+  .nameplate { font-size: 8px; padding: .1em .4em .13em; }
+}
 
 .seat {
   position: absolute;

@@ -8,7 +8,7 @@ import {
   loadAll, connectRealtime, sendMessage, addMemo, setMemo,
   goalStep, goalToggle, addGoal, stats,
   esc, kstTime, dayKey, kstLongDate,
-} from "./store.js?v=2.1.1";
+} from "./store.js?v=2.1.2";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -68,7 +68,7 @@ function renderMap(host) {
   if (!host) return;
   const zonesHtml = ZONES.map(
     (z) => `<span class="zone-label" style="--x:${z.label.x};--y:${z.label.y}">
-      <svg class="ic" viewBox="0 0 24 24"><use href="#i-${z.icon}"/></svg>${esc(z.name)}
+      <svg class="ic" viewBox="0 0 24 24"><use href="#i-${z.icon}"/></svg><span class="full">${esc(z.name)}</span><span class="short">${esc(z.short || z.name)}</span>
     </span>`
   ).join("");
 

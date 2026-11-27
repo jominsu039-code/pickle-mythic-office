@@ -82,6 +82,7 @@ export const ZONES = [
   {
     id: "council",
     name: "올림포스 대회의실",
+    short: "올림포스",
     greek: "ΜΕΓΑΡΟΝ",
     kind: "meeting",
     icon: "crown",
@@ -96,6 +97,7 @@ export const ZONES = [
   {
     id: "delphi",
     name: "델포이 소회의실",
+    short: "델포이",
     greek: "ΔΕΛΦΟΙ",
     kind: "oracle",
     icon: "scroll",
@@ -109,6 +111,7 @@ export const ZONES = [
   {
     id: "agora",
     name: "아고라 작업실",
+    short: "아고라",
     greek: "ΑΓΟΡΑ",
     kind: "work",
     icon: "quill",
@@ -125,6 +128,7 @@ export const ZONES = [
   {
     id: "ambrosia",
     name: "암브로시아 다실",
+    short: "암브로시아",
     greek: "ΑΜΒΡΟΣΙΑ",
     kind: "pantry",
     icon: "cup",
@@ -135,6 +139,7 @@ export const ZONES = [
   {
     id: "lounge",
     name: "신전 라운지",
+    short: "라운지",
     greek: "ΣΧΟΛΗ",
     kind: "lounge",
     icon: "leaf",
