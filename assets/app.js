@@ -8,7 +8,7 @@ import {
   loadAll, connectRealtime, sendMessage, addMemo, setMemo,
   goalStep, goalToggle, addGoal, stats,
   esc, kstTime, dayKey, kstLongDate,
-} from "./store.js?v=3.0.0";
+} from "./store.js?v=3.0.1";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -622,7 +622,9 @@ function stateSignature() {
 function renderAll(force = false) {
   renderLivePill();
   const sig = stateSignature();
-  if (!force && sig === renderSig) {
+  // subscribe() 는 fn(state) 로 부르므로 인자를 그대로 믿지 않는다.
+  const forced = force === true;
+  if (!forced && sig === renderSig) {
     // 새 데이터가 없는 백업 동기화: 캐릭터 애니메이션을 끊지 않도록 그대로 둔다.
     renderStatusbar();
     renderChatHead();
